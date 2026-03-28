@@ -82,6 +82,44 @@
     ],
     "description": "Define a Mapanare enum"
   },
+  "Trait": {
+    "prefix": "trait",
+    "body": [
+      "trait ${1:Name} {",
+      "    fn ${2:method}(self${3:, params}) -> ${4:ReturnType}",
+      "}"
+    ],
+    "description": "Define a trait"
+  },
+  "Impl Block": {
+    "prefix": "impl",
+    "body": [
+      "impl ${1:TypeName} {",
+      "    fn ${2:method}(self${3:, params}) -> ${4:ReturnType} {",
+      "        ${0}",
+      "    }",
+      "}"
+    ],
+    "description": "Implement methods for a type"
+  },
+  "Impl Trait": {
+    "prefix": "implfor",
+    "body": [
+      "impl ${1:TraitName} for ${2:TypeName} {",
+      "    fn ${3:method}(self${4:, params}) -> ${5:ReturnType} {",
+      "        ${0}",
+      "    }",
+      "}"
+    ],
+    "description": "Implement a trait for a type"
+  },
+  "Extern Function": {
+    "prefix": "extern",
+    "body": [
+      "extern \"${1:C}\" fn ${2:name}(${3:params}) -> ${4:ReturnType}"
+    ],
+    "description": "Declare an external (FFI) function"
+  },
   "Let Binding": {
     "prefix": "let",
     "body": [
@@ -135,6 +173,15 @@
     ],
     "description": "For-in loop"
   },
+  "While Loop": {
+    "prefix": "while",
+    "body": [
+      "while ${1:condition} {",
+      "    ${0}",
+      "}"
+    ],
+    "description": "While loop"
+  },
   "Spawn Agent": {
     "prefix": "spawn",
     "body": [
@@ -158,6 +205,13 @@
     ],
     "description": "Create a computed signal"
   },
+  "Stream": {
+    "prefix": "stream",
+    "body": [
+      "let ${1:name} = stream(${0})"
+    ],
+    "description": "Create a stream"
+  },
   "Import": {
     "prefix": "import",
     "body": [
@@ -165,15 +219,96 @@
     ],
     "description": "Import a module"
   },
-  "Impl Block": {
-    "prefix": "impl",
+  "Import With Items": {
+    "prefix": "importi",
     "body": [
-      "impl ${1:TypeName} {",
-      "    fn ${2:method}(${3:params}) -> ${4:ReturnType} {",
-      "        ${0}",
-      "    }",
+      "import ${1:module} { ${0} }"
+    ],
+    "description": "Import specific items from a module"
+  },
+  "New Struct": {
+    "prefix": "new",
+    "body": [
+      "new ${1:StructName} {",
+      "    ${2:field}: ${0}",
       "}"
     ],
-    "description": "Implement methods for a type"
+    "description": "Construct a struct instance"
+  },
+  "GPU Function": {
+    "prefix": "gpu",
+    "body": [
+      "@gpu",
+      "fn ${1:name}(${2:params}) -> ${3:ReturnType} {",
+      "    ${0}",
+      "}"
+    ],
+    "description": "Define a GPU-dispatched function"
+  },
+  "CUDA Function": {
+    "prefix": "cuda",
+    "body": [
+      "@cuda",
+      "fn ${1:name}(${2:params}) -> ${3:ReturnType} {",
+      "    ${0}",
+      "}"
+    ],
+    "description": "Define a CUDA-dispatched function"
+  },
+  "Tensor": {
+    "prefix": "tensor",
+    "body": [
+      "let ${1:name}: Tensor<${2:Float}>[${3:rows}, ${4:cols}] = ${0}"
+    ],
+    "description": "Declare a tensor"
+  },
+  "Map Literal": {
+    "prefix": "map",
+    "body": [
+      "#{${1:key}: ${2:value}, ${0}}"
+    ],
+    "description": "Create a map literal"
+  },
+  "Result Ok": {
+    "prefix": "ok",
+    "body": [
+      "Ok(${0})"
+    ],
+    "description": "Wrap value in Ok"
+  },
+  "Result Err": {
+    "prefix": "err",
+    "body": [
+      "Err(${0})"
+    ],
+    "description": "Wrap value in Err"
+  },
+  "Option Some": {
+    "prefix": "some",
+    "body": [
+      "Some(${0})"
+    ],
+    "description": "Wrap value in Some"
+  },
+  "Assert": {
+    "prefix": "assert",
+    "body": [
+      "assert ${1:condition}, \"${0}\""
+    ],
+    "description": "Assert with message"
+  },
+  "Export": {
+    "prefix": "export",
+    "body": [
+      "export ${0}"
+    ],
+    "description": "Export a definition"
+  },
+  "Type Alias": {
+    "prefix": "type",
+    "body": [
+      "type ${1:Name} = ${0}"
+    ],
+    "description": "Define a type alias"
   }
 }
