@@ -2,7 +2,7 @@
   "name": "mapanare",
   "displayName": "Mapanare",
   "description": "Mapanare language support — syntax highlighting, LSP integration, snippets, and commands",
-  "version": "0.3.0",
+  "version": "0.5.0",
   "publisher": "mapanare-research",
   "license": "MIT",
   "repository": {
@@ -15,6 +15,7 @@
   "categories": [
     "Programming Languages",
     "Linters",
+    "Formatters",
     "Snippets"
   ],
   "keywords": [
@@ -78,8 +79,28 @@
         "category": "Mapanare"
       },
       {
+        "command": "mapanare.lint",
+        "title": "Mapanare: Lint Current File",
+        "category": "Mapanare"
+      },
+      {
+        "command": "mapanare.lintFix",
+        "title": "Mapanare: Lint & Fix Current File",
+        "category": "Mapanare"
+      },
+      {
         "command": "mapanare.restartLsp",
         "title": "Mapanare: Restart Language Server",
+        "category": "Mapanare"
+      },
+      {
+        "command": "mapanare.init",
+        "title": "Mapanare: Initialize New Project Here",
+        "category": "Mapanare"
+      },
+      {
+        "command": "mapanare.checkAll",
+        "title": "Mapanare: Check All Files in Workspace",
         "category": "Mapanare"
       }
     ],
@@ -100,6 +121,20 @@
         {
           "command": "mapanare.fmt",
           "when": "editorLangId == mapanare"
+        },
+        {
+          "command": "mapanare.lint",
+          "when": "editorLangId == mapanare"
+        },
+        {
+          "command": "mapanare.lintFix",
+          "when": "editorLangId == mapanare"
+        },
+        {
+          "command": "mapanare.init"
+        },
+        {
+          "command": "mapanare.checkAll"
         }
       ]
     },
@@ -113,13 +148,23 @@
         },
         "mapanare.lsp.path": {
           "type": "string",
-          "default": "mapanare-lsp",
-          "description": "Path to the mapanare-lsp executable"
+          "default": "mapanare",
+          "description": "Path to the mapanare executable (used with 'lsp' subcommand)"
         },
         "mapanare.compiler.path": {
           "type": "string",
           "default": "mapa",
           "description": "Path to the mapa compiler executable"
+        },
+        "mapanare.formatOnSave": {
+          "type": "boolean",
+          "default": false,
+          "description": "Automatically format .mn files on save"
+        },
+        "mapanare.lintOnSave": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show lint diagnostics on save (via LSP)"
         }
       }
     }

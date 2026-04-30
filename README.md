@@ -51,20 +51,28 @@ Full TextMate grammar covering all Mapanare v2.0.0 language constructs:
 Access from the command palette (`Ctrl+Shift+P`):
 
 - **Mapanare: Run Current File** — compile and execute via `mapa run`
-- **Mapanare: Check Current File** — type-check without running
+- **Mapanare: Check Current File** — type-check the active file (`mapa check`)
+- **Mapanare: Check All Files in Workspace** — recursive type-check (`mapa check --all`) — *new in v0.5.0*
+- **Mapanare: Initialize New Project Here** — scaffold a project from the default template (`mapa init`) — *new in v0.5.0*
 - **Mapanare: Compile Current File** — compile to LLVM IR
 - **Mapanare: Format Current File** — auto-format with `mapa fmt`
+- **Mapanare: Lint Current File** / **Lint & Fix** — run `mapa lint`
 - **Mapanare: Restart Language Server** — restart the LSP
 
 ### Language Server (LSP)
 
-When `mapanare-lsp` is available, the extension provides:
+The extension launches `mapanare lsp` over stdio (the language server
+ships with the Mapanare Python package as of v5.18.0). Capabilities:
 
-- Hover information
-- Go-to-definition
-- Find references
-- Diagnostics (errors and warnings)
-- Autocomplete
+- **Real-time diagnostics** — push-mode `publishDiagnostics`, ~300 ms debounce after edits
+- **Hover** — type info, function signatures
+- **Go to definition** — local + workspace-wide cross-module
+- **Find references** — top-level functions, structs, enums, enum variants
+- **Completion** — identifiers, member access on `.`, types on `:`, import paths, builtin methods on `Option`/`String`/`List`
+- **Rename** — cross-module, conservative (rejects keywords + name collisions)
+
+Workspace-wide symbol index (re-built on save) powers cross-module
+go-to-def + rename.
 
 ## Installation
 
@@ -81,21 +89,23 @@ code --install-extension mapanare-research.mapanare
 Download the `.vsix` from the [releases page](https://github.com/Mapanare-Research/mapanare-vscode/releases), then:
 
 ```
-code --install-extension mapanare-0.3.0.vsix
+code --install-extension mapanare-0.5.0.vsix
 ```
 
 ## Requirements
 
-- [Mapanare compiler](https://github.com/Mapanare-Research/mapanare) (`mapa` CLI) for run/check/compile commands
-- `mapanare-lsp` for language server features (optional)
+- [Mapanare compiler](https://github.com/Mapanare-Research/mapanare) ≥ 5.18.0 — `mapa` (or `mapanare`) on `PATH` for run/check/compile commands and the LSP.
+- The language server ships with the Python package (`pip install mapanare`); no separate install needed.
 
 ## Settings
 
 | Setting | Default | Description |
 |---------|---------|-------------|
 | `mapanare.lsp.enabled` | `true` | Enable the Mapanare Language Server |
-| `mapanare.lsp.path` | `mapanare-lsp` | Path to the `mapanare-lsp` executable |
+| `mapanare.lsp.path` | `mapanare` | Executable used to launch the LSP (with `lsp` subcommand) |
 | `mapanare.compiler.path` | `mapa` | Path to the `mapa` compiler executable |
+| `mapanare.formatOnSave` | `false` | Run `mapa fmt` on save |
+| `mapanare.lintOnSave` | `true` | Show LSP diagnostics on save |
 
 ## Development
 
@@ -106,6 +116,23 @@ npm install
 npm run compile
 # Press F5 in VS Code to launch Extension Development Host
 ```
+
+## Release notes
+
+### 0.5.0 — Mapanare v5.18.0 alignment
+
+- Tracks `mapanare-lsp v0.5.0`. Capability set documented in
+  [`docs/guides/lsp.md`](https://github.com/Mapanare-Research/mapanare/blob/main/docs/guides/lsp.md)
+  in the main repo.
+- New commands: **Initialize New Project Here** and
+  **Check All Files in Workspace**.
+- README refreshed to match v5.18.0's `init` template format and the
+  current LSP capability matrix (cross-module rename, find-references,
+  workspace-wide symbol index).
+
+### 0.4.0 — initial public release
+
+Syntax highlighting, snippets, LSP integration, and the run/check/compile/fmt/lint command set.
 
 ## License
 
